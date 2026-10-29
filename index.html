@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="pt-MZ">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NEXUS TECH — Assistência Informática na Beira | Inhamízua</title>
+<meta name="description" content="NEXUS TECH — instalação de Windows, actualização de sistemas, manutenção, Pacote Office e hardware. Serviço ao domicílio ou na loja, em Inhamízua e em toda a cidade da Beira." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#05070c;
+    --bg-2:#080b13;
+    --ink:#eaf0ff;
+    --muted:#8f9bb8;
+    --cyan:#22e6ff;
+    --violet:#8b5cf6;
+    --lime:#b6ff3d;
+    --line:rgba(255,255,255,.09);
+    --glass:rgba(255,255,255,.045);
+    --radius:20px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    line-height:1.6;
+  }
+  h1,h2,h3,h4,.font-d{font-family:'Space Grotesk',sans-serif;letter-spacing:-.02em}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{width:min(1180px,92vw);margin-inline:auto}
+  .grad{background:linear-gradient(100deg,#22e6ff 0%,#8b5cf6 55%,#b6ff3d 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  /* ---------- background atmosphere ---------- */
+  .bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .bg-fx .grid{
+    position:absolute;inset:-20%;
+    background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+    background-size:64px 64px;
+    transform:perspective(700px) rotateX(58deg) translateY(18%);
+    mask-image:radial-gradient(circle at 50% 30%,#000 0%,transparent 68%);
+    -webkit-mask-image:radial-gradient(circle at 50% 30%,#000 0%,transparent 68%);
+    animation:gridmove 22s linear infinite;
+  }
+  @keyframes gridmove{to{background-position:0 64px,64px 0}}
+  .orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55}
+  .orb.a{width:520px;height:520px;background:#0ea5c9;top:-180px;left:-120px;animation:float1 16s ease-in-out infinite}
+  .orb.b{width:460px;height:460px;background:#6d28d9;top:180px;right:-160px;animation:float2 19s ease-in-out infinite}
+  .orb.c{width:380px;height:380px;background:#2dd4bf;bottom:-160px;left:35%;opacity:.28;animation:float1 24s ease-in-out infinite reverse}
+  @keyframes float1{50%{transform:translate3d(40px,50px,0) scale(1.12)}}
+  @keyframes float2{50%{transform:translate3d(-50px,40px,0) scale(1.08)}}
+  .noise{position:absolute;inset:0;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  /* ---------- nav ---------- */
+  header{position:sticky;top:0;z-index:60;backdrop-filter:blur(18px);background:rgba(5,7,12,.62);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:76px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .mark{
+    position:relative;width:42px;height:42px;display:grid;place-items:center;border-radius:13px;
+    background:linear-gradient(140deg,rgba(34,230,255,.22),rgba(139,92,246,.28));
+    border:1px solid rgba(34,230,255,.4);
+    box-shadow:0 0 26px rgba(34,230,255,.28),inset 0 0 18px rgba(139,92,246,.25);
+    overflow:visible;
+  }
+  .mark::after{
+    content:"";position:absolute;inset:-6px;border-radius:16px;
+    background:conic-gradient(from 0deg,transparent 0 62%,rgba(34,230,255,.75) 78%,rgba(139,92,246,.85) 88%,transparent 100%);
+    -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1px));
+    mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1px));
+    animation:spin 6s linear infinite;pointer-events:none;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.mark::after{animation:none}}
+  .brand b{font-family:'Space Grotesk';font-size:1.06rem;letter-spacing:.16em;text-transform:uppercase}
+  .brand small{display:block;font-size:.62rem;letter-spacing:.3em;color:var(--muted);text-transform:uppercase;margin-top:1px}
+  .menu{display:flex;align-items:center;gap:30px}
+  .menu a{font-size:.9rem;color:#c6cfe4;position:relative;padding:6px 0;transition:.25s}
+  .menu a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:linear-gradient(90deg,var(--cyan),var(--violet));transition:.3s}
+  .menu a:hover{color:#fff}
+  .menu a:hover::after{width:100%}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;padding:13px 24px;border-radius:999px;
+    font-weight:600;font-size:.92rem;border:1px solid transparent;cursor:pointer;transition:.3s;white-space:nowrap;
+  }
+  .btn-primary{
+    background:linear-gradient(100deg,var(--cyan),#7dd3fc 30%,var(--violet));
+    color:#04070d;box-shadow:0 10px 34px rgba(34,230,255,.28);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 44px rgba(34,230,255,.42)}
+  .btn-ghost{border-color:var(--line);background:var(--glass);color:#dbe4f7;backdrop-filter:blur(8px)}
+  .btn-ghost:hover{border-color:rgba(34,230,255,.5);color:#fff;transform:translateY(-2px)}
+  .btn-sm{padding:10px 18px;font-size:.85rem}
+  .burger{display:none;background:none;border:1px solid var(--line);color:#fff;width:44px;height:44px;border-radius:12px;cursor:pointer}
+
+  /* ---------- hero ---------- */
+  main{position:relative;z-index:1}
+  .hero{position:relative;padding:90px 0 70px}
+  .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:56px;align-items:center}
+  .pill{
+    display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;
+    border:1px solid rgba(34,230,255,.32);background:rgba(34,230,255,.07);
+    font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:#9fe9f7;margin-bottom:26px;
+  }
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px rgba(182,255,61,.18);animation:pulse 2s infinite}
+  @keyframes pulse{50%{box-shadow:0 0 0 8px rgba(182,255,61,0)}}
+  .hero h1{font-size:clamp(2.5rem,5.2vw,4.15rem);line-height:1.02;font-weight:700}
+  .hero p.lead{color:var(--muted);font-size:1.08rem;max-width:520px;margin-top:24px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:36px}
+  .hero-meta{display:flex;gap:34px;flex-wrap:wrap;margin-top:46px;padding-top:28px;border-top:1px solid var(--line)}
+  .hero-meta div span{display:block;font-family:'Space Grotesk';font-size:1.05rem;font-weight:600}
+  .hero-meta div small{color:var(--muted);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase}
+
+  /* terminal card */
+  .terminal{
+    border-radius:var(--radius);border:1px solid var(--line);
+    background:linear-gradient(160deg,rgba(18,24,38,.92),rgba(8,11,19,.94));
+    box-shadow:0 40px 90px rgba(0,0,0,.65),0 0 0 1px rgba(34,230,255,.06) inset;
+    overflow:hidden;position:relative;
+  }
+  .terminal::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(600px circle at 80% -10%,rgba(34,230,255,.16),transparent 60%);
+  }
+  .term-bar{display:flex;align-items:center;gap:8px;padding:14px 18px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.025)}
+  .term-bar i{width:10px;height:10px;border-radius:50%;background:#33405c;display:block}
+  .term-bar i:nth-child(1){background:#ff5f57}.term-bar i:nth-child(2){background:#febc2e}.term-bar i:nth-child(3){background:#28c840}
+  .term-bar span{margin-left:auto;font-size:.72rem;letter-spacing:.18em;color:#5f6b85;text-transform:uppercase}
+  .term-body{padding:26px 24px 28px;font-family:'Space Grotesk';font-size:.88rem}
+  .term-body .ln{display:flex;gap:12px;padding:7px 0;color:#a9b6d1;border-bottom:1px dashed rgba(255,255,255,.05)}
+  .term-body .ln:last-child{border:none}
+  .term-body .ln b{color:#fff;font-weight:500}
+  .term-body .ok{color:var(--lime);font-size:.74rem;letter-spacing:.1em;margin-left:auto}
+  .bars{margin-top:22px}
+  .bars .row{display:flex;justify-content:space-between;font-size:.72rem;color:#7d89a4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px}
+  .track{height:6px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;margin-bottom:16px}
+  .fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--cyan),var(--violet));animation:load 2.6s ease-out both}
+  .fill.two{background:linear-gradient(90deg,var(--violet),var(--lime));animation-delay:.35s;width:100%}
+  @keyframes load{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+
+  /* ---------- services ---------- */
+  section{padding:84px 0;position:relative}
+  .sec-head{max-width:660px;margin-bottom:52px}
+  .eyebrow{font-size:.74rem;letter-spacing:.3em;text-transform:uppercase;color:var(--cyan);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+  .eyebrow::before{content:"";width:32px;height:1px;background:linear-gradient(90deg,var(--cyan),transparent)}
+  .sec-head h2{font-size:clamp(1.9rem,3.6vw,2.85rem);line-height:1.1}
+  .sec-head p{color:var(--muted);margin-top:16px;font-size:1rem}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px}
+  .card{
+    position:relative;padding:30px 28px 32px;border-radius:var(--radius);
+    border:1px solid var(--line);background:var(--glass);backdrop-filter:blur(14px);
+    overflow:hidden;transition:.35s cubic-bezier(.2,.7,.3,1);
+  }
+  .card::after{
+    content:"";position:absolute;inset:0;border-radius:var(--radius);padding:1px;
+    background:linear-gradient(140deg,rgba(34,230,255,.6),transparent 40%,rgba(139,92,246,.55));
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:.35s;
+  }
+  .card:hover{transform:translateY(-6px);background:rgba(255,255,255,.07);box-shadow:0 30px 60px rgba(0,0,0,.5)}
+  .card:hover::after{opacity:1}
+  .ico{
+    width:58px;height:58px;border-radius:16px;display:grid;place-items:center;margin-bottom:22px;
+    background:linear-gradient(150deg,rgba(255,255,255,.10),rgba(255,255,255,.03));
+    border:1px solid rgba(255,255,255,.14);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.10);
+  }
+  .ico svg{width:30px;height:30px;display:block;filter:drop-shadow(0 3px 10px rgba(0,0,0,.55))}
+  .card:hover .ico{border-color:rgba(34,230,255,.42);box-shadow:0 0 28px rgba(34,230,255,.25),inset 0 1px 0 rgba(255,255,255,.14)}
+
+  /* microsoft tech strip */
+  .tech{padding:0 0 26px}
+  .tech .inner{
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding:22px 0;display:flex;align-items:center;gap:26px;flex-wrap:wrap;justify-content:space-between;
+  }
+  .tech-lead{font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:#6f7c99;max-width:210px;line-height:1.7}
+  .tech-row{display:flex;flex-wrap:wrap;gap:12px}
+  .tech-item{
+    display:flex;align-items:center;gap:9px;padding:9px 16px;border-radius:999px;
+    border:1px solid var(--line);background:var(--glass);font-size:.8rem;color:#c3cde3;
+    letter-spacing:.01em;transition:.3s;
+  }
+  .tech-item:hover{border-color:rgba(34,230,255,.45);color:#fff;transform:translateY(-2px)}
+  .tech-item svg{width:18px;height:18px;display:block;flex:0 0 auto}
+  .card h3{font-size:1.18rem;margin-bottom:10px}
+  .card p{color:var(--muted);font-size:.93rem}
+  .tagline{margin-top:18px;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#6f7c99}
+  .num{position:absolute;top:22px;right:26px;font-family:'Space Grotesk';font-size:.78rem;color:#39445e;letter-spacing:.1em}
+
+  /* ---------- atendimento ---------- */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .panel{
+    border:1px solid var(--line);border-radius:var(--radius);padding:38px 34px;
+    background:linear-gradient(160deg,rgba(15,21,34,.86),rgba(8,11,19,.7));position:relative;overflow:hidden;
+  }
+  .panel .knot{position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(34,230,255,.18),transparent 70%)}
+  .panel h3{font-size:1.42rem;margin-bottom:12px}
+  .panel p{color:var(--muted);font-size:.95rem}
+  .panel ul{list-style:none;margin-top:22px;display:grid;gap:12px}
+  .panel li{display:flex;gap:12px;font-size:.92rem;color:#c8d2e8;align-items:flex-start}
+  .panel li svg{flex:0 0 18px;margin-top:3px;color:var(--lime)}
+  .panel .badge{display:inline-block;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:#8ef0c9;border:1px solid rgba(34,230,255,.28);border-radius:99px;padding:5px 12px;margin-bottom:18px}
+
+  /* ---------- location ---------- */
+  .loc{display:grid;grid-template-columns:.95fr 1.05fr;gap:22px;align-items:stretch}
+  .loc-card{border:1px solid var(--line);border-radius:var(--radius);padding:38px 34px;background:var(--glass);backdrop-filter:blur(12px)}
+  .loc-card h3{font-size:1.5rem;margin-bottom:8px}
+  .loc-card .addr{color:var(--muted);font-size:.95rem;margin-bottom:26px}
+  .kv{display:grid;gap:16px}
+  .kv div{display:flex;justify-content:space-between;gap:16px;border-bottom:1px solid rgba(255,255,255,.06);padding-bottom:14px;font-size:.9rem}
+  .kv span:first-child{color:#7b88a5;letter-spacing:.06em;text-transform:uppercase;font-size:.72rem;padding-top:3px}
+  .kv span:last-child{text-align:right;color:#e4ebfa;font-weight:500}
+  .map{
+    position:relative;border-radius:var(--radius);border:1px solid var(--line);overflow:hidden;min-height:420px;
+    background:
+      radial-gradient(circle at 30% 40%,rgba(34,230,255,.16),transparent 45%),
+      radial-gradient(circle at 70% 70%,rgba(139,92,246,.2),transparent 45%),
+      linear-gradient(160deg,#0b1220,#070a11);
+  }
+  .map .lines{position:absolute;inset:0;opacity:.5;
+    background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);
+    background-size:46px 46px}
+  .map .road{position:absolute;height:2px;background:linear-gradient(90deg,transparent,rgba(34,230,255,.6),transparent)}
+  .map .road.r1{top:38%;left:-10%;width:120%;transform:rotate(-8deg)}
+  .map .road.r2{top:66%;left:-10%;width:120%;transform:rotate(6deg);background:linear-gradient(90deg,transparent,rgba(139,92,246,.55),transparent)}
+  .pin{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);display:grid;place-items:center}
+  .pin .ring{position:absolute;width:120px;height:120px;border-radius:50%;border:1px solid rgba(34,230,255,.5);animation:ring 2.8s ease-out infinite}
+  .pin .ring:nth-child(2){animation-delay:1.4s}
+  @keyframes ring{0%{transform:scale(.35);opacity:.9}100%{transform:scale(1.6);opacity:0}}
+  .pin .core{width:16px;height:16px;border-radius:50%;background:var(--cyan);box-shadow:0 0 24px var(--cyan)}
+  .map .label{
+    position:absolute;left:50%;top:calc(46% + 34px);transform:translateX(-50%);text-align:center;
+    font-family:'Space Grotesk';background:rgba(5,7,12,.78);border:1px solid var(--line);
+    padding:10px 18px;border-radius:12px;font-size:.82rem;backdrop-filter:blur(8px);
+  }
+  .map .label small{display:block;color:var(--muted);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;margin-top:3px}
+  .map .coords{position:absolute;bottom:16px;left:18px;font-size:.66rem;letter-spacing:.2em;color:#4f5b76;text-transform:uppercase}
+
+  /* ---------- CTA / contact ---------- */
+  .cta-band{
+    border-radius:26px;padding:56px 44px;position:relative;overflow:hidden;
+    border:1px solid rgba(34,230,255,.22);
+    background:linear-gradient(120deg,rgba(34,230,255,.12),rgba(139,92,246,.14) 55%,rgba(182,255,61,.08));
+    display:grid;grid-template-columns:1.2fr .8fr;gap:36px;align-items:center;
+  }
+  .cta-band h2{font-size:clamp(1.8rem,3.4vw,2.6rem);line-height:1.1}
+  .cta-band p{color:#b9c4dc;margin-top:14px;font-size:.98rem;max-width:460px}
+  .contact-side{display:grid;gap:12px}
+  .contact-row{
+    display:flex;align-items:center;gap:16px;padding:16px 20px;border-radius:16px;
+    border:1px solid rgba(255,255,255,.12);background:rgba(5,7,12,.55);backdrop-filter:blur(10px);transition:.3s;
+  }
+  .contact-row:hover{transform:translateX(4px);border-color:rgba(34,230,255,.5)}
+  .contact-row .ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(140deg,rgba(34,230,255,.18),rgba(139,92,246,.2));color:var(--cyan);flex:0 0 auto}
+  .contact-row small{display:block;font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:#7f8ca9}
+  .contact-row strong{font-family:'Space Grotesk';font-size:1.02rem;font-weight:600;letter-spacing:.01em}
+
+  footer{border-top:1px solid var(--line);padding:44px 0 38px;position:relative;z-index:1}
+  .foot{display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap;align-items:center}
+  .foot p{color:#6c7894;font-size:.83rem}
+  .foot .brand b{font-size:.95rem}
+
+  /* whatsapp float */
+  .wa-float{
+    position:fixed;right:22px;bottom:22px;z-index:70;width:58px;height:58px;border-radius:50%;
+    display:grid;place-items:center;background:#25d366;color:#04120a;
+    box-shadow:0 14px 34px rgba(37,211,102,.42);transition:.3s;
+  }
+  .wa-float:hover{transform:scale(1.08)}
+  .wa-float::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid rgba(37,211,102,.6);animation:ring 2.4s ease-out infinite}
+
+  /* subtle entrance (never hides content) */
+  @keyframes fadeUp{from{opacity:.001;transform:translateY(18px)}to{opacity:1;transform:none}}
+  .rv{animation:fadeUp .9s cubic-bezier(.2,.7,.3,1) both}
+  @media (prefers-reduced-motion:reduce){.rv{animation:none}}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:980px){
+    .hero-grid,.split,.loc,.cta-band{grid-template-columns:1fr}
+    .hero{padding:60px 0 40px}
+    .hero-grid{gap:44px}
+    .menu{display:none}
+    .menu.open{
+      display:flex;flex-direction:column;position:absolute;top:76px;left:0;right:0;
+      background:rgba(5,7,12,.97);border-bottom:1px solid var(--line);padding:22px 6vw;gap:18px;align-items:flex-start;
+    }
+    .burger{display:grid;place-items:center}
+    .cta-band{padding:40px 26px}
+    .map{min-height:330px}
+    section{padding:64px 0}
+  }
+  @media (max-width:520px){
+    .hero h1{font-size:2.35rem}
+    .hero-meta{gap:22px}
+    .btn{width:100%;justify-content:center}
+    .hero-cta{gap:10px}
+    .card{padding:26px 22px}
+    .panel,.loc-card{padding:28px 22px}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-fx" aria-hidden="true">
+  <div class="grid"></div>
+  <div class="orb a"></div>
+  <div class="orb b"></div>
+  <div class="orb c"></div>
+  <div class="noise"></div>
+</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      <span class="mark">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7fe9ff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 17V7l8 10V7"/><path d="M20 7v10"/>
+        </svg>
+      </span>
+      <span>
+        <b>Nexus Tech</b>
+        <small>Assistência Informática</small>
+      </span>
+    </a>
+
+    <nav class="menu" id="menu">
+      <a href="#servicos">Serviços</a>
+      <a href="#atendimento">Atendimento</a>
+      <a href="#localizacao">Localização</a>
+      <a href="#contacto">Contacto</a>
+      <a class="btn btn-primary btn-sm" href="https://wa.me/258879807144" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.6 14.2c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-1-.3-1.7-.6-2.9-1.3-4.8-4.3-4.9-4.5-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .5-.1.7.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.6c-.2.2-.3.4-.1.7.2.3.9 1.5 2 2.4 1.3 1.2 2.4 1.5 2.7 1.6.3.1.5.1.7-.1l1-1.2c.2-.2.4-.2.6-.1l2 1c.2.1.4.2.4.3.1.1.1.7-.1 1.2Z"/></svg>
+        WhatsApp
+      </a>
+    </nav>
+
+    <button class="burger" id="burger" aria-label="Abrir menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="pill"><span class="dot"></span> Inhamízua · Beira · Sofala</span>
+        <h1>O teu computador<br><span class="grad">pronto para o futuro.</span></h1>
+        <p class="lead">
+          Instalação, actualização e manutenção de sistemas. Hardware e Pacote Office
+          tratados por quem percebe — na nossa loja em Inhamízua ou no conforto da tua casa,
+          em toda a cidade da Beira.
+        </p>
+
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="https://wa.me/258879807144" target="_blank" rel="noopener">
+            Pedir orçamento no WhatsApp
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="tel:+258879807144">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3Z"/></svg>
+            +258 87 980 7144
+          </a>
+        </div>
+
+        <div class="hero-meta">
+          <div><span>5 serviços</span><small>Técnicos</small></div>
+          <div><span>Ao domicílio</span><small>Ou na loja</small></div>
+          <div><span>Cidade da Beira</span><small>Zona de cobertura</small></div>
+        </div>
+      </div>
+
+      <div class="terminal rv in">
+        <div class="term-bar">
+          <i></i><i></i><i></i>
+          <span>nexus_diagnostics</span>
+        </div>
+        <div class="term-body">
+          <div class="ln"><b>› sistema</b> a verificar <span class="ok">OK</span></div>
+          <div class="ln"><b>› disco</b> a analisar <span class="ok">OK</span></div>
+          <div class="ln"><b>› memória</b> a testar <span class="ok">OK</span></div>
+          <div class="ln"><b>› rede</b> a configurar <span class="ok">OK</span></div>
+          <div class="ln"><b>› software</b> a instalar <span class="ok">OK</span></div>
+
+          <div class="bars">
+            <div class="row"><span>Desempenho</span><span>100%</span></div>
+            <div class="track"><div class="fill" style="width:92%"></div></div>
+            <div class="row"><span>Estabilidade</span><span>100%</span></div>
+            <div class="track"><div class="fill two" style="width:100%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVIÇOS -->
+  <section id="servicos">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <div class="eyebrow">O que fazemos</div>
+        <h2>Serviços <span class="grad">técnicos</span> para o teu equipamento</h2>
+        <p>Do primeiro arranque de um computador novo ao resgate de um sistema lento e cheio de erros — tratamos de tudo com diagnóstico antes de qualquer intervenção.</p>
+      </div>
+
+      <div class="tech rv">
+        <div class="inner">
+          <div class="tech-lead">Trabalhamos com tecnologia Microsoft</div>
+          <div class="tech-row">
+            <span class="tech-item">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="w2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#50E6FF"/><stop offset="1" stop-color="#0078D4"/></linearGradient></defs><rect x="2" y="2" width="9.4" height="9.4" rx="1" fill="url(#w2)"/><rect x="12.6" y="2" width="9.4" height="9.4" rx="1" fill="url(#w2)"/><rect x="2" y="12.6" width="9.4" height="9.4" rx="1" fill="url(#w2)"/><rect x="12.6" y="12.6" width="9.4" height="9.4" rx="1" fill="url(#w2)"/></svg>
+              Windows 10 / 11
+            </span>
+            <span class="tech-item">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1.8" y="1.8" width="9.6" height="9.6" fill="#F25022"/><rect x="12.6" y="1.8" width="9.6" height="9.6" fill="#7FBA00"/><rect x="1.8" y="12.6" width="9.6" height="9.6" fill="#00A4EF"/><rect x="12.6" y="12.6" width="9.6" height="9.6" fill="#FFB900"/></svg>
+              Microsoft 365
+            </span>
+            <span class="tech-item">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="d2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00CC6A"/><stop offset="1" stop-color="#00A4EF"/></linearGradient></defs><path d="M12 2 3.8 4.7v6.9c0 4.9 3.4 8.6 8.2 10.2 4.8-1.6 8.2-5.3 8.2-10.2V4.7L12 2Z" fill="url(#d2)"/></svg>
+              Defender
+            </span>
+            <span class="tech-item">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="o2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F97B2C"/><stop offset="1" stop-color="#C4314B"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="3.2" fill="url(#o2)"/><path d="M7.4 8.6v6.8l4.2 2.1V6.5L7.4 8.6Z" fill="#fff"/></svg>
+              Office
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cards">
+
+        <article class="card rv">
+          <span class="num">01</span>
+          <div class="ico" title="Microsoft Windows">
+            <svg viewBox="0 0 24 24" role="img" aria-label="Microsoft Windows">
+              <defs><linearGradient id="win1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#50E6FF"/><stop offset="1" stop-color="#0078D4"/></linearGradient></defs>
+              <rect x="1.6" y="1.6" width="9.6" height="9.6" rx="1.1" fill="url(#win1)"/>
+              <rect x="12.8" y="1.6" width="9.6" height="9.6" rx="1.1" fill="url(#win1)"/>
+              <rect x="1.6" y="12.8" width="9.6" height="9.6" rx="1.1" fill="url(#win1)"/>
+              <rect x="12.8" y="12.8" width="9.6" height="9.6" rx="1.1" fill="url(#win1)"/>
+            </svg>
+          </div>
+          <h3>Instalação de Windows</h3>
+          <p>Instalação limpa de Windows 10 e 11, activação, drivers, programas essenciais e configuração completa do sistema.</p>
+          <div class="tagline">Formatação · Drivers · Configuração</div>
+        </article>
+
+        <article class="card rv">
+          <span class="num">02</span>
+          <div class="ico" title="Microsoft">
+            <svg viewBox="0 0 24 24" role="img" aria-label="Microsoft">
+              <rect x="1.4" y="1.4" width="10" height="10" fill="#F25022"/>
+              <rect x="12.6" y="1.4" width="10" height="10" fill="#7FBA00"/>
+              <rect x="1.4" y="12.6" width="10" height="10" fill="#00A4EF"/>
+              <rect x="12.6" y="12.6" width="10" height="10" fill="#FFB900"/>
+            </svg>
+          </div>
+          <h3>Actualização de sistemas</h3>
+          <p>Passagem para uma versão mais recente do sistema, com migração dos teus ficheiros e verificação de compatibilidade.</p>
+          <div class="tagline">Upgrade · Migração de dados</div>
+        </article>
+
+        <article class="card rv">
+          <span class="num">03</span>
+          <div class="ico" title="Microsoft Defender">
+            <svg viewBox="0 0 24 24" role="img" aria-label="Microsoft Defender">
+              <defs><linearGradient id="defg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00CC6A"/><stop offset="1" stop-color="#00A4EF"/></linearGradient></defs>
+              <path d="M12 1.8 3.6 4.6v7.1c0 5 3.5 8.9 8.4 10.5 4.9-1.6 8.4-5.5 8.4-10.5V4.6L12 1.8Z" fill="url(#defg)"/>
+              <path d="m8.3 12.1 2.6 2.7 5-5.3" fill="none" stroke="#06202b" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>
+            </svg>
+          </div>
+          <h3>Manutenção de sistema</h3>
+          <p>Diagnóstico e reparação de erros, limpeza de software, eliminação de vírus, optimização de arranque e desempenho.</p>
+          <div class="tagline">Diagnóstico · Segurança · Velocidade</div>
+        </article>
+
+        <article class="card rv">
+          <span class="num">04</span>
+          <div class="ico" title="Microsoft Office / Microsoft 365">
+            <svg viewBox="0 0 24 24" role="img" aria-label="Microsoft Office">
+              <defs><linearGradient id="officeg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F97B2C"/><stop offset="1" stop-color="#C4314B"/></linearGradient></defs>
+              <rect x="1.6" y="1.6" width="20.8" height="20.8" rx="3.4" fill="url(#officeg)"/>
+              <path d="M6.9 8.4v7.2l4.6 2.3V6.1L6.9 8.4Z" fill="#fff" opacity=".96"/>
+              <path d="M11.5 6.1 17.1 8.4v7.2l-5.6 2.3V6.1Z" fill="#fff" opacity=".52"/>
+            </svg>
+          </div>
+          <h3>Instalação de Pacote Office</h3>
+          <p>Microsoft Office instalado e configurado — Word, Excel, PowerPoint e Outlook prontos para trabalhar no dia-a-dia.</p>
+          <div class="tagline">Word · Excel · PowerPoint</div>
+        </article>
+
+        <article class="card rv">
+          <span class="num">05</span>
+          <div class="ico" title="Microsoft Surface / dispositivos">
+            <svg viewBox="0 0 24 24" role="img" aria-label="Dispositivos Microsoft">
+              <defs><linearGradient id="surfg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#50E6FF"/><stop offset="1" stop-color="#0078D4"/></linearGradient></defs>
+              <rect x="1.5" y="4.4" width="21" height="13.2" rx="1.8" fill="url(#surfg)"/>
+              <rect x="3.6" y="6.5" width="16.8" height="9" rx=".7" fill="#05070c" opacity=".82"/>
+              <rect x="9.4" y="17.6" width="5.2" height="1.5" rx=".7" fill="url(#surfg)"/>
+              <path d="M7.2 19.9h9.6" stroke="url(#surfg)" stroke-width="1.9" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <h3>Instalação de hardware</h3>
+          <p>Montagem e substituição de peças: disco, memória RAM, placa gráfica, fontes, teclado, ecrãs e periféricos.</p>
+          <div class="tagline">SSD · RAM · Gráfica · Periféricos</div>
+        </article>
+
+        <article class="card rv" style="display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(150deg,rgba(34,230,255,.10),rgba(139,92,246,.12));border-color:rgba(34,230,255,.3)">
+          <div>
+            <div class="eyebrow" style="margin-bottom:14px">Sem tempo a perder?</div>
+            <h3 style="font-size:1.3rem">Fala com um técnico agora</h3>
+            <p style="margin-top:10px">Diz-nos o problema e recebe orientação sobre o que precisa — antes de sair de casa.</p>
+          </div>
+          <a class="btn btn-primary" style="margin-top:24px" href="https://wa.me/258879807144" target="_blank" rel="noopener">Falar no WhatsApp</a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ATENDIMENTO -->
+  <section id="atendimento">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <div class="eyebrow">Como te atendemos</div>
+        <h2>Duas maneiras, <span class="grad">a mesma qualidade</span></h2>
+        <p>Não precisas de carregar o computador pela cidade. Escolhe o que for mais prático para ti.</p>
+      </div>
+
+      <div class="split">
+        <div class="panel rv">
+          <span class="badge">Opção 01 · Domicílio</span>
+          <h3>Vamos até à tua casa</h3>
+          <p>Serviço ao domicílio em toda a cidade da Beira. Indicamos o dia e a hora da visita antes, para que não fiques à espera.</p>
+          <ul>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12 5 5L20 6"/></svg> Ideal para escritórios e casas com vários equipamentos</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12 5 5L20 6"/></svg> Sem necessidade de desmontar nem transportar o PC</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12 5 5L20 6"/></svg> Marcação prévia pelo WhatsApp ou telefone</li>
+          </ul>
+        </div>
+
+        <div class="panel rv">
+          <span class="badge">Opção 02 · Loja</span>
+          <h3>Traz o equipamento a Inhamízua</h3>
+          <p>Traga o teu computador para a nossa oficina em Inhamízua. Fazemos o diagnóstico e explicamos o que precisa ser feito, sem surpresas.</p>
+          <ul>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12 5 5L20 6"/></svg> Diagnóstico feito na hora da entrega</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12 5 5L20 6"/></svg> Reparação de internos, hardware e periféricos</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12 5 5L20 6"/></svg> Avisamos quando estiver pronto para levantar</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCALIZAÇÃO -->
+  <section id="localizacao">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <div class="eyebrow">Onde estamos</div>
+        <h2>Inhamízua, <span class="grad">cidade da Beira</span></h2>
+        <p>Estamos em Inhamízua, na Beira, província de Sofala. Se preferires, vamos até ti.</p>
+      </div>
+
+      <div class="loc">
+        <div class="loc-card rv">
+          <h3>Nexus Tech</h3>
+          <p class="addr">Inhamízua · Cidade da Beira · Sofala, Moçambique</p>
+          <div class="kv">
+            <div><span>Zona</span><span>Inhamízua</span></div>
+            <div><span>Cidade</span><span>Beira</span></div>
+            <div><span>Província</span><span>Sofala</span></div>
+            <div><span>Serviço</span><span>Loja + domicílio</span></div>
+            <div><span>Contacto</span><span>+258 87 980 7144</span></div>
+          </div>
+          <a class="btn btn-ghost" style="margin-top:26px;width:100%;justify-content:center" href="https://www.google.com/maps/search/?api=1&query=Inham%C3%ADzua+Beira+Sofala+Mo%C3%A7ambique" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+            Ver Inhamízua no mapa
+          </a>
+        </div>
+
+        <div class="map rv" aria-label="Mapa estilizado de Inhamízua, Beira">
+          <div class="lines"></div>
+          <div class="road r1"></div>
+          <div class="road r2"></div>
+          <div class="pin">
+            <span class="ring"></span>
+            <span class="ring"></span>
+            <span class="core"></span>
+          </div>
+          <div class="label">Nexus Tech<small>Inhamízua · Beira</small></div>
+          <div class="coords">19°50'S · 34°52'E · SOFALA</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="wrap">
+      <div class="cta-band rv">
+        <div>
+          <div class="eyebrow">Contacto</div>
+          <h2>Pronto para resolver<br><span class="grad">o teu problema?</span></h2>
+          <p>Liga ou envia mensagem com o modelo do equipamento e o que está a acontecer. Respondemos com a orientação e o orçamento da intervenção.</p>
+        </div>
+
+        <div class="contact-side">
+          <a class="contact-row" href="tel:+258879807144">
+            <span class="ic">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3Z"/></svg>
+            </span>
+            <span>
+              <small>Ligar agora</small>
+              <strong>+258 87 980 7144</strong>
+            </span>
+          </a>
+
+          <a class="contact-row" href="https://wa.me/258879807144" target="_blank" rel="noopener">
+            <span class="ic">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.6 14.2c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-1-.3-1.7-.6-2.9-1.3-4.8-4.3-4.9-4.5-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .5-.1.7.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.6c-.2.2-.3.4-.1.7.2.3.9 1.5 2 2.4 1.3 1.2 2.4 1.5 2.7 1.6.3.1.5.1.7-.1l1-1.2c.2-.2.4-.2.6-.1l2 1c.2.1.4.2.4.3.1.1.1.7-.1 1.2Z"/></svg>
+            </span>
+            <span>
+              <small>WhatsApp</small>
+              <strong>Enviar mensagem</strong>
+            </span>
+          </a>
+
+          <a class="contact-row" href="https://www.google.com/maps/search/?api=1&query=Inham%C3%ADzua+Beira+Sofala+Mo%C3%A7ambique" target="_blank" rel="noopener">
+            <span class="ic">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+            </span>
+            <span>
+              <small>Loja</small>
+              <strong>Inhamízua, Beira</strong>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="brand">
+      <span class="mark">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7fe9ff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17V7l8 10V7"/><path d="M20 7v10"/></svg>
+      </span>
+      <span>
+        <b>Nexus Tech</b>
+        <small>Assistência Informática · Beira</small>
+      </span>
+    </div>
+    <p>© 2026 Nexus Tech — Inhamízua, cidade da Beira, Sofala · +258 87 980 7144<br>
+      <span style="font-size:.72rem;color:#4f5b76">Microsoft, Windows, Office, Defender e Surface são marcas registadas da Microsoft Corporation.</span>
+    </p>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/258879807144" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.6 14.2c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-1-.3-1.7-.6-2.9-1.3-4.8-4.3-4.9-4.5-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .5-.1.7.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.6c-.2.2-.3.4-.1.7.2.3.9 1.5 2 2.4 1.3 1.2 2.4 1.5 2.7 1.6.3.1.5.1.7-.1l1-1.2c.2-.2.4-.2.6-.1l2 1c.2.1.4.2.4.3.1.1.1.7-.1 1.2Z"/></svg>
+</a>
+
+<script>
+  // mobile menu
+  const burger = document.getElementById('burger');
+  const menu = document.getElementById('menu');
+  burger.addEventListener('click', () => menu.classList.toggle('open'));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.remove('open')));
+
+  // staggered entrance
+  document.querySelectorAll('.rv').forEach((el, i) => {
+    el.style.animationDelay = Math.min(i * 0.06, 0.5) + 's';
+  });
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
